@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>peerjs-transfer</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <script type="module" src="scripts/main.js" defer></script>
+
+    <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+</head>
+
+<body style="font-family: monospace;">
+    <div id="app" style="max-width: 600px; margin: auto; margin-top: 15px;">
+        <h1 style="color: blue;">
+            peerjs-transfer
+        </h1>
+
+        <div style="margin-top: -15px;">Transfer text/files on p2p</div>
+
+        <div style="margin-top: 18px">Your id is <span id="peerId" style="font-weight: bold;">[loading...]</span> <a
+                id="copyIdButton" href="">copy</a></div>
+        <div>Share this id so others can connect to you.</div>
+
+
+        <div style="margin-top: 36px;">
+            <form>
+                <label id="destIdLabel" for="destId">Connect to id: </label>
+                <br />
+                <input type="text" name="destId" id="destId" required />
+
+                <button id="connectButton">Connect</button>
+                <button id="disconnectButton" disabled>Disconnect</button>
+            </form>
+        </div>
+
+        <div style="margin-top: 36px;">
+            <form>
+                <input type="text" name="message" id="message" placeholder="Hi" />
+                <input type="file" name="file" id="file" />
+
+                <button id="sendMessageButton" disabled>Send</button>
+
+            </form>
+        </div>
+
+        <div id="logs"
+            style="height: 300px; border-left: 1px solid black; margin-top: 15px; padding: 10px 6px; overflow-y: auto;">
+            <h3>Transfer Log</h3>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
