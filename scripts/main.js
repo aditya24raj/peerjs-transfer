@@ -27,7 +27,7 @@ peer.on('connection', function (conn) {
 
     conn.on('data', function (data) {
         if (data.type === 'file') {
-            logs.innerHTML += `<div>Received: <a href=${data.content} download=${data.name} target="_blank">${data.name}(${data.size})</a></div>`;
+            logs.innerHTML += `<div>Received: <a href=${URL.createObjectURL(data.content)} download=${data.name} target="_blank">${data.name}(${data.size})</a></div>`;
 
         } else if (data.type === 'message') {
             logs.innerHTML += `<div>Received: ${data.content}</div>`;
@@ -36,8 +36,8 @@ peer.on('connection', function (conn) {
     });
 
     if (!destId.value) {
-    destId.value = conn.peer;
-    connectButton.click();
+        destId.value = conn.peer;
+        connectButton.click();
     }
 
 });
@@ -94,7 +94,7 @@ sendMessageButton.addEventListener('click', function (event) {
             'type': 'file',
             'name': fileContent.name,
             'size': returnFileSize(fileContent.size),
-            'content': URL.createObjectURL(fileContent)
+            'content': fileContent
         });
 
         logs.innerHTML += `<div>Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}</div>`;
