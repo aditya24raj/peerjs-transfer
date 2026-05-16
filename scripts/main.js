@@ -80,7 +80,7 @@ disconnectButton.addEventListener('click', function (event) {
     window.location.reload();
 });
 
-sendMessageButton.addEventListener('click', function (event) {
+sendMessageButton.addEventListener('click', async function (event) {
     event.preventDefault();
 
     let messageContent = message.value;
