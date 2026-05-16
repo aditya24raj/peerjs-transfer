@@ -20,6 +20,11 @@ peer.on('error', function (err) {
 });
 
 peer.on('connection', function (conn) {
+    if (!confirm(`'${conn.peer}' is requesting to connect. Allow connection?`)) {
+        conn.close();
+        return;
+    }
+
     conn.on('data', function (data) {
         if (data.type === 'file') {
             logs.innerHTML += `<div>Received: <a href=${data.content} download=${data.name} target="_blank">${data.name}(${data.size})</a></div>`;
