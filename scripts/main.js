@@ -34,6 +34,10 @@ peer.on('connection', function (conn) {
         }
 
     });
+
+    destId.value = conn.peer;
+    connectButton.click();
+
 });
 
 let conn;
