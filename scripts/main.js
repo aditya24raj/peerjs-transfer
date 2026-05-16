@@ -27,7 +27,10 @@ peer.on('connection', function (conn) {
 
     conn.on('data', function (data) {
         if (data.type === 'file') {
-            logs.innerHTML += `<div>Received: <a href=${URL.createObjectURL(data.content)} download=${data.name} target="_blank">${data.name}(${data.size})</a></div>`;
+            const f = new Blob([data.content], {
+                type: data.mime,
+            });
+            logs.innerHTML += `<div>Received: <a href=${URL.createObjectURL(f)} download=${data.name} target="_blank">${data.name}(${data.size})</a></div>`;
 
         } else if (data.type === 'message') {
             logs.innerHTML += `<div>Received: ${data.content}</div>`;
@@ -94,7 +97,7 @@ sendMessageButton.addEventListener('click', function (event) {
             'type': 'file',
             'name': fileContent.name,
             'size': returnFileSize(fileContent.size),
-            'content': fileContent
+            'content': await fileContent.arrayBuffer()
         });
 
         logs.innerHTML += `<div>Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}</div>`;
