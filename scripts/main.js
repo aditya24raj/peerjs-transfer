@@ -35,8 +35,10 @@ peer.on('connection', function (conn) {
 
     });
 
+    if (!destId.value) {
     destId.value = conn.peer;
     connectButton.click();
+    }
 
 });
 
