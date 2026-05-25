@@ -53,7 +53,7 @@ let conn;
 peer.on('open', function (id) {
     peerId.textContent = id;
     new QRCode(document.getElementById("qrcode"), {
-        text: `${window.location.origin}#${id}`,
+        text: `${window.location.origin}${window.location.pathname}#${id}`,
         width: 100,
         height: 100,
         colorDark : "blue",
