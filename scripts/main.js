@@ -79,31 +79,9 @@ peer.on('open', function (id) {
         correctLevel : QRCode.CorrectLevel.H
     });
     
-    connectButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        destIdLabel.textContent = "Connecting to: ";
-        connectButton.disabled = true;
-        disconnectButton.disabled = true;
-
-
-        conn = peer.connect(destId.value);
-        conn.on('open', function () {
-            destId.disabled = true;
-            connectButton.disabled = true;
-            disconnectButton.disabled = false;
-            destIdLabel.textContent = "Connected to: ";
-
-            sendMessageButton.disabled = false;
-
-        });
-
-        conn.on('error', function (err) {
-            const div = document.createElement('div');
-            div.textContent = `Error: ${err.message}`;
-            logs.appendChild(div);
-        });
-
-    });
+   
+    connectButton.removeEventListener('click', handleConnect); // remove any pre-existing event listeners
+    connectButton.addEventListener('click', handleConnect);
 
     // try to connect to another peer if id is available in url
     if (window.location.hash?.substring(1)) {
@@ -172,6 +150,32 @@ function returnFileSize(number) {
         return `${(number / 1e3).toFixed(1)} KB`;
     }
     return `${(number / 1e6).toFixed(1)} MB`;
+}
+
+function handleConnect(event) {
+    event.preventDefault();
+    destIdLabel.textContent = "Connecting to: ";
+    connectButton.disabled = true;
+    disconnectButton.disabled = true;
+
+
+    conn = peer.connect(destId.value);
+    conn.on('open', function () {
+        destId.disabled = true;
+        connectButton.disabled = true;
+        disconnectButton.disabled = false;
+        destIdLabel.textContent = "Connected to: ";
+
+        sendMessageButton.disabled = false;
+
+    });
+
+    conn.on('error', function (err) {
+        const div = document.createElement('div');
+        div.textContent = `Error: ${err.message}`;
+        logs.appendChild(div);
+    });
+
 }
 
 
