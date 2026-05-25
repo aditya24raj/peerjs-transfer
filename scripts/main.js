@@ -37,7 +37,7 @@ peer.on('connection', function (conn) {
             });
             
             const div = document.createElement('div');
-            
+            div.textContent = "Received: ";
             const link = document.createElement('a');
             link.href = `${URL.createObjectURL(f)}`;
             link.download = `${data.name}`;
