@@ -123,7 +123,8 @@ sendMessageButton.addEventListener('click', async function (event) {
                 'type': 'file',
                 'name': fileContent.name,
                 'size': returnFileSize(fileContent.size),
-                'content': await fileContent.arrayBuffer()
+                'content': await fileContent.arrayBuffer(),
+                'mime': fileContent.type
             });
 
             logs.innerHTML += `<div>Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}</div>`;
