@@ -20,7 +20,10 @@ peer.on('error', function (err) {
 });
 
 peer.on('connection', function (conn) {
-    if (!confirm(`'${conn.peer}' is requesting to connect. Allow connection?`)) {
+    if (
+        destId.value !== conn.peer // if request is from the peer we requested connection, then don't ask for confirmation
+        && !confirm(`'${conn.peer}' is requesting to connect. Allow connection?`)
+    ) {
         conn.close();
         return;
     }
