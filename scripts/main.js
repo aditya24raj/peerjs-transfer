@@ -67,6 +67,16 @@ peer.on('connection', function (conn) {
 });
 
 let conn;
+conn.on('close', function () {
+    const div = document.createElement('div');
+    div.textContent = `Disconnected`;
+    logs.appendChild(div);
+
+    destId.disabled = false;
+    connectButton.disabled = false;
+    disconnectButton.disabled = true;
+    sendMessageButton.disabled = true;
+});
 
 peer.on('open', function (id) {
     peerId.textContent = id;
