@@ -63,6 +63,10 @@ peer.on('open', function (id) {
     
     connectButton.addEventListener('click', function (event) {
         event.preventDefault();
+        destIdLabel.textContent = "Connecting to: ";
+        connectButton.disabled = true;
+        disconnectButton.disabled = true;
+
 
         conn = peer.connect(destId.value);
         conn.on('open', function () {
