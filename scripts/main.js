@@ -52,7 +52,15 @@ let conn;
 
 peer.on('open', function (id) {
     peerId.textContent = id;
-
+    new QRCode(document.getElementById("qrcode"), {
+        text: `${window.location.origin}#${id}`,
+        width: 100,
+        height: 100,
+        colorDark : "blue",
+        colorLight : "white",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    
     connectButton.addEventListener('click', function (event) {
         event.preventDefault();
 
@@ -72,6 +80,12 @@ peer.on('open', function (id) {
         });
 
     });
+
+    // try to connect to another peer if id is available in url
+    if (window.location.hash) {
+        destId.value = window.location.hash.substring(1);
+        connectButton.click();
+    }
 });
 
 disconnectButton.addEventListener('click', function (event) {
@@ -96,15 +110,15 @@ sendMessageButton.addEventListener('click', async function (event) {
     }
 
     if (fileContent) {
-        conn.send({
-            'type': 'file',
-            'name': fileContent.name,
-            'size': returnFileSize(fileContent.size),
-            'content': await fileContent.arrayBuffer()
-        });
+            conn.send({
+                'type': 'file',
+                'name': fileContent.name,
+                'size': returnFileSize(fileContent.size),
+                'content': await fileContent.arrayBuffer()
+            });
 
-        logs.innerHTML += `<div>Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}</div>`;
-        file.value = ""; // Clear the input field
+            logs.innerHTML += `<div>Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}</div>`;
+            file.value = ""; // Clear the input field
     }
 });
 

@@ -10,6 +10,7 @@
     <script type="module" src="scripts/main.js" defer></script>
 
     <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+    <script src="./scripts/qrcode.js"></script>
 </head>
 
 <body style="font-family: monospace;">
@@ -20,9 +21,22 @@
 
         <div style="margin-top: -15px;">Transfer text/files on p2p</div>
 
-        <div style="margin-top: 18px">Your id is <span id="peerId" style="font-weight: bold;">[loading...]</span> <a
-                id="copyIdButton" href="">copy</a></div>
-        <div>Share this id so others can connect to you.</div>
+        <div style="margin-top: 18px">
+            <div style="display: flex; gap: 10px; margin: 15px 0px;">
+                <div id="qrcode" style="width: 100px; height: 100px; background-color:blue"></div>
+                <div>
+                    <h2>ID</h2>
+                    <p id="peerId" style="font-weight: bold;">[loading...]</p>
+                    <a id="copyIdButton" href="">copy</a>
+                </div>
+            </div>
+        
+        </div>
+        <div style="color: gray; font-weight:lighter">
+            <div>Share this id so others can connect to you.</div>
+            <div>Or ask to scan the QR code.</div>
+        </div>
+
 
 
         <div style="margin-top: 36px;">
