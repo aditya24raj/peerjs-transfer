@@ -129,7 +129,7 @@ sendMessageButton.addEventListener('click', async function (event) {
 copyIdButton.addEventListener('click', function (e) {
     e.preventDefault();
 
-    navigator.clipboard.writeText(peerId.textContent);
+    navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#${peerId.textContent}`);
     copyIdButton.textContent = "copied!";
     setTimeout(() => {
         copyIdButton.textContent = "copy";
