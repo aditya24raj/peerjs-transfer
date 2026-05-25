@@ -86,9 +86,10 @@ peer.on('open', function (id) {
     });
 
     // try to connect to another peer if id is available in url
-    if (window.location.hash) {
+    if (window.location.hash?.substring(1)) {
         destId.value = window.location.hash.substring(1);
         connectButton.click();
+        window.location.hash = "";
     }
 });
 
