@@ -16,7 +16,9 @@ peer.on('error', function (err) {
         window.location.reload();
     }
 
-    logs.innerHTML += `<div>Error: ${err.message}</div>`;
+    const div = document.createElement('div');
+    div.textContent = `Error: ${err.message}`;
+    logs.appendChild(div);
 });
 
 peer.on('connection', function (conn) {
@@ -33,10 +35,22 @@ peer.on('connection', function (conn) {
             const f = new Blob([data.content], {
                 type: data.mime,
             });
-            logs.innerHTML += `<div>Received: <a href=${URL.createObjectURL(f)} download=${data.name} target="_blank">${data.name}(${data.size})</a></div>`;
+            
+            const div = document.createElement('div');
+            
+            const link = document.createElement('a');
+            link.href = `${URL.createObjectURL(f)}`;
+            link.download = `${data.name}`;
+            link.target = "_blank";
+            link.textContent = `${data.name}(${data.size})`;
+            div.appendChild(link);
+
+            logs.appendChild(div);
 
         } else if (data.type === 'message') {
-            logs.innerHTML += `<div>Received: ${data.content}</div>`;
+            const div = document.createElement('div');
+            div.textContent = `Received: ${data.content}`;
+            logs.appendChild(div);
         }
 
     });
@@ -84,7 +98,9 @@ peer.on('open', function (id) {
         });
 
         conn.on('error', function (err) {
-            logs.innerHTML += `<div>Error: ${err.message}</div>`;
+            const div = document.createElement('div');
+            div.textContent = `Error: ${err.message}`;
+            logs.appendChild(div);
         });
 
     });
@@ -114,7 +130,11 @@ sendMessageButton.addEventListener('click', async function (event) {
 
     if (messageContent !== "") {
         conn.send({ 'type': 'message', 'content': messageContent });
-        logs.innerHTML += `<div>Sent: ${messageContent}</div>`;
+        
+        const div = document.createElement('div');
+        div.textContent = `Sent: ${messageContent}`;
+        logs.appendChild(div);
+
         message.value = ""; // Clear the input field
     }
 
@@ -126,8 +146,11 @@ sendMessageButton.addEventListener('click', async function (event) {
                 'content': await fileContent.arrayBuffer(),
                 'mime': fileContent.type
             });
+            
+            const div = document.createElement('div');
+            div.textContent = `Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}`;
+            logs.appendChild(div);
 
-            logs.innerHTML += `<div>Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}</div>`;
             file.value = ""; // Clear the input field
     }
 });
