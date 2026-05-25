@@ -41,7 +41,11 @@ peer.on('connection', function (conn) {
 
     });
 
-    if (!destId.value) {
+    // try to auto-connect back to peer whose incoming connection we accepted
+    if (
+        !destId.value
+        || destId.value !== conn.peer
+    ) {
         destId.value = conn.peer;
         connectButton.click();
     }
