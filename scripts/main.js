@@ -21,16 +21,14 @@ peer.on('error', function (err) {
     logs.appendChild(div);
 });
 
-peer.on('connection', function (incomingConn) {
+peer.on('connection', function (conn) {
     if (
-        destId.value !== incomingConn.peer // if request is from the peer we requested connection, then don't ask for confirmation
-        && !confirm(`'${incomingConn.peer}' is requesting to connect. Allow connection?`)
+        destId.value !== conn.peer // if request is from the peer we requested connection, then don't ask for confirmation
+        && !confirm(`'${conn.peer}' is requesting to connect. Allow connection?`)
     ) {
-        incomingConn.close();
+        conn.close();
         return;
     }
-
-    conn = incomingConn;
 
     conn.on('data', function (data) {
         if (data.type === 'file') {
