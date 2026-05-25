@@ -45,6 +45,9 @@ peer.on('connection', function (incomingConn) {
             link.download = `${data.name}`;
             link.target = "_blank";
             link.textContent = `${data.name}(${data.size})`;
+            link.addEventListener('click', () => {
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            });
             div.appendChild(link);
 
             logs.appendChild(div);
