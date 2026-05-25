@@ -21,14 +21,16 @@ peer.on('error', function (err) {
     logs.appendChild(div);
 });
 
-peer.on('connection', function (conn) {
+peer.on('connection', function (incomingConn) {
     if (
-        destId.value !== conn.peer // if request is from the peer we requested connection, then don't ask for confirmation
-        && !confirm(`'${conn.peer}' is requesting to connect. Allow connection?`)
+        destId.value !== incomingConn.peer // if request is from the peer we requested connection, then don't ask for confirmation
+        && !confirm(`'${incomingConn.peer}' is requesting to connect. Allow connection?`)
     ) {
-        conn.close();
+        incomingConn.close();
         return;
     }
+
+    conn = incomingConn;
 
     conn.on('data', function (data) {
         if (data.type === 'file') {
@@ -55,6 +57,17 @@ peer.on('connection', function (conn) {
 
     });
 
+    conn.on('close', function () {
+        const div = document.createElement('div');
+        div.textContent = `Disconnected`;
+        logs.appendChild(div);
+
+        destId.disabled = false;
+        connectButton.disabled = false;
+        disconnectButton.disabled = true;
+        sendMessageButton.disabled = true;
+    });
+
     // try to auto-connect back to peer whose incoming connection we accepted
     if (
         !destId.value
@@ -67,16 +80,6 @@ peer.on('connection', function (conn) {
 });
 
 let conn;
-conn.on('close', function () {
-    const div = document.createElement('div');
-    div.textContent = `Disconnected`;
-    logs.appendChild(div);
-
-    destId.disabled = false;
-    connectButton.disabled = false;
-    disconnectButton.disabled = true;
-    sendMessageButton.disabled = true;
-});
 
 peer.on('open', function (id) {
     peerId.textContent = id;
@@ -127,19 +130,19 @@ sendMessageButton.addEventListener('click', async function (event) {
     }
 
     if (fileContent) {
-            conn.send({
-                'type': 'file',
-                'name': fileContent.name,
-                'size': returnFileSize(fileContent.size),
-                'content': await fileContent.arrayBuffer(),
-                'mime': fileContent.type
-            });
-            
-            const div = document.createElement('div');
-            div.textContent = `Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}`;
-            logs.appendChild(div);
+        conn.send({
+            'type': 'file',
+            'name': fileContent.name,
+            'size': returnFileSize(fileContent.size),
+            'content': await fileContent.arrayBuffer(),
+            'mime': fileContent.type
+        });
+        
+        const div = document.createElement('div');
+        div.textContent = `Sent: ${fileContent.name}, ${returnFileSize(fileContent.size)}`;
+        logs.appendChild(div);
 
-            file.value = ""; // Clear the input field
+        file.value = ""; // Clear the input field
     }
 });
 
