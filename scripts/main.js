@@ -87,7 +87,8 @@ peer.on('open', function (id) {
         height: 100,
         colorDark : "blue",
         colorLight : "white",
-        correctLevel : QRCode.CorrectLevel.H
+        correctLevel : QRCode.CorrectLevel.H,
+        useSVG: true
     });
     
    
